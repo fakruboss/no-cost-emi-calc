@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Cost EMI Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>No Cost EMI Calculator</h1>
+            <p>Calculate your EMI with zero processing fees</p>
+        </header>
+        
+        <div class="calculator">
+            <form id="emi-form">
+                <div class="input-group">
+                    <label for="loanAmount">Loan Amount (₹)</label>
+                    <input type="number" id="loanAmount" placeholder="Enter loan amount" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="interestRate">Annual Interest Rate (%)</label>
+                    <input type="number" id="interestRate" step="0.01" placeholder="Enter interest rate" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="loanTenure">Loan Tenure (months)</label>
+                    <input type="number" id="loanTenure" placeholder="Enter tenure in months" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="processingFee">Processing Fee (₹)</label>
+                    <input type="number" id="processingFee" placeholder="Enter processing fee (optional)" step="0.01">
+                </div>
+                
+                <button type="submit" class="calculate-btn">Calculate EMI</button>
+            </form>
+            
+            <div class="results" id="results">
+                <h3>No Cost EMI Details</h3>
+                <div class="summary">
+                    <div class="result-item">
+                        <span>Base Monthly EMI:</span>
+                        <span id="monthlyEMI">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Interest:</span>
+                        <span id="totalInterest">₹0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Amount (with fees):</span>
+                        <span id="totalAmount">₹0</span>
+                    </div>
+                    <div class="result-item merchant-discount">
+                        <span>Merchant Discount:</span>
+                        <span id="merchantDiscount">₹0</span>
+                    </div>
+                    <div class="result-item effective-amount">
+                        <span>Your Effective Payment:</span>
+                        <span id="effectiveAmount">₹0</span>
+                    </div>
+                </div>
+                
+                <div class="amortization">
+                    <h4>Month-wise Breakdown</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Outstanding</th>
+                                    <th>Interest</th>
+                                    <th>Principal</th>
+                                    <th>GST on Interest</th>
+                                    <th>Processing Fee</th>
+                                    <th>GST on Fee</th>
+                                    <th>Total Payment</th>
+                                </tr>
+                            </thead>
+                            <tbody id="amortizationBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
