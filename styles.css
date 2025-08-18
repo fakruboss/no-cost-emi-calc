@@ -86,8 +86,12 @@ header p {
 
 .calculator.calculated {
     display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 2.5rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: 
+        "input-form emi-details chart-section"
+        "monthly-breakdown monthly-breakdown monthly-breakdown";
+    gap: 2rem;
     align-items: start;
 }
 
@@ -123,6 +127,7 @@ header p {
     filter: none;
     align-items: stretch;
     justify-content: flex-start;
+    grid-area: input-form;
 }
 
 .right-section {
@@ -132,18 +137,14 @@ header p {
 }
 
 .calculator.calculated .right-section {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    display: contents;
     opacity: 1;
     animation: slideInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
     overflow: visible;
 }
 
 .top-row {
-    display: flex;
-    gap: 2rem;
-    align-items: flex-start;
+    display: contents;
 }
 
 @keyframes slideInRight {
@@ -273,11 +274,10 @@ header p {
 }
 
 .results {
-    flex: 1;
     background: rgba(255, 255, 255, 0.95);
     border: 3px solid #17a2b8;
     border-radius: 20px;
-    padding: 2rem;
+    padding: 1.5rem;
     display: block;
     box-shadow: 
         0 10px 25px rgba(23, 162, 184, 0.2),
@@ -288,7 +288,7 @@ header p {
     height: fit-content;
     width: 100%;
     overflow: visible;
-    min-height: 350px;
+    grid-area: emi-details;
 }
 
 
@@ -335,7 +335,7 @@ header p {
 
 .breakdown-section {
     display: block;
-    grid-column: 1 / -1;
+    grid-area: monthly-breakdown;
     margin-top: 1rem;
 }
 
@@ -405,17 +405,17 @@ header p {
 }
 
 .charts-section {
-    flex: 1;
     margin: 0;
     height: fit-content;
+    grid-area: chart-section;
 }
 
 .chart-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
-    padding: 2rem;
+    gap: 1rem;
+    padding: 1.5rem;
     background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
     border-radius: 20px;
     border: 3px solid #20c997;
@@ -423,17 +423,12 @@ header p {
         0 10px 25px rgba(0, 0, 0, 0.1),
         0 5px 10px rgba(0, 0, 0, 0.05),
         inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 #pieChart {
-    max-width: 280px;
-    max-height: 280px;
-    border-radius: 50%;
-    box-shadow: 
-        0 8px 15px rgba(0, 0, 0, 0.15),
-        0 4px 8px rgba(0, 0, 0, 0.1);
-    background: #fff;
+    max-width: 220px;
+    max-height: 220px;
 }
 
 .chart-legend {
@@ -446,10 +441,10 @@ header p {
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
-    padding: 0.8rem 1.2rem;
+    gap: 0.6rem;
+    padding: 0.6rem 1rem;
     background: linear-gradient(145deg, #fff 0%, #f8f9fa 100%);
-    border-radius: 10px;
+    border-radius: 8px;
     border: 2px solid #dee2e6;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -463,9 +458,9 @@ header p {
 }
 
 .legend-color {
-    width: 20px;
-    height: 20px;
-    border-radius: 8px;
+    width: 16px;
+    height: 16px;
+    border-radius: 6px;
     border: 1px solid #dee2e6;
     box-shadow: 
         0 1px 2px rgba(0, 0, 0, 0.1),
@@ -476,7 +471,7 @@ header p {
     color: #495057;
     font-weight: 600;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .table-container {
