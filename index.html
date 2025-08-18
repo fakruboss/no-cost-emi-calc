@@ -10,19 +10,19 @@
     <div class="container">
         <header>
             <h1>No Cost EMI Calculator</h1>
-            <p>Calculate your EMI with zero processing fees</p>
+            <p>Unveiling the true cost behind "free" EMI offers</p>
         </header>
         
         <div class="calculator">
             <form id="emi-form">
                 <div class="input-group">
                     <label for="loanAmount">Loan Amount (₹)</label>
-                    <input type="number" id="loanAmount" placeholder="Enter loan amount" required>
+                    <input type="number" id="loanAmount" step="0.01" placeholder="Enter loan amount" required>
                 </div>
                 
                 <div class="input-group">
                     <label for="interestRate">Annual Interest Rate (%)</label>
-                    <input type="number" id="interestRate" step="0.01" placeholder="Enter interest rate" required>
+                    <input type="number" id="interestRate" step="1" min="0" placeholder="Enter interest rate" required>
                 </div>
                 
                 <div class="input-group">
@@ -32,7 +32,7 @@
                 
                 <div class="input-group">
                     <label for="processingFee">Processing Fee (₹)</label>
-                    <input type="number" id="processingFee" placeholder="Enter processing fee (optional)" step="0.01">
+                    <input type="number" id="processingFee" placeholder="Enter processing fee (optional)" min="0">
                 </div>
                 
                 <button type="submit" class="calculate-btn">Calculate EMI</button>
@@ -46,7 +46,7 @@
                         <span id="monthlyEMI">₹0</span>
                     </div>
                     <div class="result-item">
-                        <span>Total Interest:</span>
+                        <span>Total Interest + GST:</span>
                         <span id="totalInterest">₹0</span>
                     </div>
                     <div class="result-item">

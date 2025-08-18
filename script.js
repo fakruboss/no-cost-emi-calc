@@ -57,12 +57,13 @@ document.addEventListener('DOMContentLoaded', function() {
             outstanding -= principal;
         }
         
+        const totalInterestPlusGST = totalInterest + totalGST;
         const totalAmount = loanAmount + totalInterest + totalGST + totalProcessingFee + totalGSTOnFee;
         const merchantDiscount = totalInterest + totalGST + totalProcessingFee + totalGSTOnFee;
         const effectiveAmount = totalAmount - merchantDiscount; // In no-cost EMI, this equals loan amount
         
         // Display results
-        displayResults(baseEMI, totalInterest, totalAmount, merchantDiscount, effectiveAmount, amortizationSchedule);
+        displayResults(baseEMI, totalInterestPlusGST, totalAmount, merchantDiscount, effectiveAmount, amortizationSchedule);
     }
     
     function displayResults(baseEMI, totalInterest, totalAmount, merchantDiscount, effectiveAmount, schedule) {
