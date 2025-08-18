@@ -14,75 +14,88 @@
         </header>
         
         <div class="calculator">
-            <form id="emi-form">
-                <div class="input-group">
-                    <label for="loanAmount">Loan Amount (₹)</label>
-                    <input type="number" id="loanAmount" step="0.01" placeholder="Enter loan amount" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="interestRate">Annual Interest Rate (%)</label>
-                    <input type="number" id="interestRate" step="1" min="0" placeholder="Enter interest rate" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="loanTenure">Loan Tenure (months)</label>
-                    <input type="number" id="loanTenure" placeholder="Enter tenure in months" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="processingFee">Processing Fee (₹)</label>
-                    <input type="number" id="processingFee" placeholder="Enter processing fee (optional)" min="0">
-                </div>
-                
-                <button type="submit" class="calculate-btn">Calculate EMI</button>
-            </form>
+            <div class="left-section">
+                <form id="emi-form">
+                    <div class="input-group">
+                        <label for="loanAmount">Loan Amount (₹)</label>
+                        <input type="number" id="loanAmount" step="0.01" placeholder="Enter loan amount" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="interestRate">Annual Interest Rate (%)</label>
+                        <input type="number" id="interestRate" step="1" min="0" value="16" placeholder="Enter interest rate" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="loanTenure">Loan Tenure (months)</label>
+                        <input type="number" id="loanTenure" value="6" placeholder="Enter tenure in months" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="processingFee">Processing Fee (₹)</label>
+                        <input type="number" id="processingFee" value="199" placeholder="Enter processing fee (optional)" min="0">
+                    </div>
+                    
+                    <button type="submit" class="calculate-btn">Calculate EMI</button>
+                </form>
+            </div>
             
-            <div class="results" id="results">
-                <h3>No Cost EMI Details</h3>
-                <div class="summary">
-                    <div class="result-item">
-                        <span>Base Monthly EMI:</span>
-                        <span id="monthlyEMI">₹0</span>
+            <div class="right-section">
+                <div class="top-row">
+                    <div class="results" id="results">
+                    <h3>No Cost EMI Details</h3>
+                    <div class="summary">
+                        <div class="result-item">
+                            <span>Base Monthly EMI:</span>
+                            <span id="monthlyEMI">₹0</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Total Interest + GST:</span>
+                            <span id="totalInterest">₹0</span>
+                        </div>
+                        <div class="result-item merchant-discount">
+                            <span>Additional Charges:</span>
+                            <span id="merchantDiscount">₹0</span>
+                        </div>
+                        <div class="result-item effective-amount">
+                            <span>Your Effective Payment:</span>
+                            <span id="effectiveAmount">₹0</span>
+                        </div>
                     </div>
-                    <div class="result-item">
-                        <span>Total Interest + GST:</span>
-                        <span id="totalInterest">₹0</span>
                     </div>
-                    <div class="result-item">
-                        <span>Total Amount (with fees):</span>
-                        <span id="totalAmount">₹0</span>
-                    </div>
-                    <div class="result-item merchant-discount">
-                        <span>Merchant Discount:</span>
-                        <span id="merchantDiscount">₹0</span>
-                    </div>
-                    <div class="result-item effective-amount">
-                        <span>Your Effective Payment:</span>
-                        <span id="effectiveAmount">₹0</span>
+                    
+                    <div class="charts-section">
+                        <h4>Loan Breakdown</h4>
+                        <div class="chart-container">
+                            <canvas id="pieChart" width="250" height="250"></canvas>
+                            <div class="chart-legend" id="chartLegend"></div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="amortization">
-                    <h4>Month-wise Breakdown</h4>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Month</th>
-                                    <th>Outstanding</th>
-                                    <th>Interest</th>
-                                    <th>Principal</th>
-                                    <th>GST on Interest</th>
-                                    <th>Processing Fee</th>
-                                    <th>GST on Fee</th>
-                                    <th>Total Payment</th>
-                                </tr>
-                            </thead>
-                            <tbody id="amortizationBody">
-                            </tbody>
-                        </table>
+                <div class="breakdown-section">
+                    <div class="amortization">
+                        <h4>Month-wise Breakdown</h4>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>Outstanding</th>
+                                        <th>Interest</th>
+                                        <th>Principal</th>
+                                        <th>GST on Interest</th>
+                                        <th>Processing Fee</th>
+                                        <th>GST on Fee</th>
+                                        <th>Total Payment</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="amortizationBody">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                </div>
                 </div>
             </div>
         </div>
