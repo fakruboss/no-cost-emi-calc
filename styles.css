@@ -32,12 +32,13 @@ body {
     position: relative;
     overflow: hidden;
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: scale(0.85);
+    transform: scale(0.95);
 }
 
 .container.calculated {
-    max-width: 1400px;
-    transform: scale(0.85);
+    max-width: 1600px;
+    width: 95%;
+    transform: scale(1);
 }
 
 
@@ -85,8 +86,8 @@ header p {
 
 .calculator.calculated {
     display: grid;
-    grid-template-columns: 350px 1fr;
-    gap: 2rem;
+    grid-template-columns: 380px 1fr;
+    gap: 2.5rem;
     align-items: start;
 }
 
@@ -276,7 +277,7 @@ header p {
     background: rgba(255, 255, 255, 0.95);
     border: 3px solid #17a2b8;
     border-radius: 20px;
-    padding: 1.5rem;
+    padding: 2rem;
     display: block;
     box-shadow: 
         0 10px 25px rgba(23, 162, 184, 0.2),
@@ -287,6 +288,7 @@ header p {
     height: fit-content;
     width: 100%;
     overflow: visible;
+    min-height: 350px;
 }
 
 
@@ -333,23 +335,27 @@ header p {
 
 .breakdown-section {
     display: block;
+    grid-column: 1 / -1;
+    margin-top: 1rem;
 }
 
 .amortization {
     width: 100%;
+    max-width: none;
 }
 
 .result-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem;
+    padding: 1.2rem 2rem;
     border: 2px solid #ffeaa7;
     background: linear-gradient(145deg, #fff 0%, #ffeaa7 100%);
-    margin: 0.5rem 0;
+    margin: 0.8rem 0;
     border-radius: 15px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 1.1rem;
 }
 
 .result-item:hover {
@@ -381,12 +387,12 @@ header p {
 
 .effective-amount {
     font-weight: 800;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%);
     border: 3px solid #ffc107;
-    padding: 1.5rem;
+    padding: 2rem;
     border-radius: 20px;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     box-shadow: 
         0 10px 20px rgba(0, 0, 0, 0.2),
         0 5px 10px rgba(0, 0, 0, 0.1),
@@ -408,8 +414,8 @@ header p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    padding: 1.5rem;
+    gap: 1.5rem;
+    padding: 2rem;
     background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
     border-radius: 20px;
     border: 3px solid #20c997;
@@ -417,11 +423,12 @@ header p {
         0 10px 25px rgba(0, 0, 0, 0.1),
         0 5px 10px rgba(0, 0, 0, 0.05),
         inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    justify-content: center;
 }
 
 #pieChart {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 280px;
+    max-height: 280px;
     border-radius: 50%;
     box-shadow: 
         0 8px 15px rgba(0, 0, 0, 0.15),
@@ -439,10 +446,10 @@ header p {
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.8rem;
+    gap: 0.8rem;
+    padding: 0.8rem 1.2rem;
     background: linear-gradient(145deg, #fff 0%, #f8f9fa 100%);
-    border-radius: 8px;
+    border-radius: 10px;
     border: 2px solid #dee2e6;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -456,9 +463,9 @@ header p {
 }
 
 .legend-color {
-    width: 16px;
-    height: 16px;
-    border-radius: 6px;
+    width: 20px;
+    height: 20px;
+    border-radius: 8px;
     border: 1px solid #dee2e6;
     box-shadow: 
         0 1px 2px rgba(0, 0, 0, 0.1),
@@ -469,7 +476,7 @@ header p {
     color: #495057;
     font-weight: 600;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
-    font-size: 0.85rem;
+    font-size: 1rem;
 }
 
 .table-container {
@@ -478,14 +485,16 @@ header p {
         0 10px 25px rgba(0, 0, 0, 0.1),
         0 5px 10px rgba(0, 0, 0, 0.05);
     border: 2px solid #20c997;
-    overflow: visible;
+    overflow-x: auto;
+    width: 100%;
+    margin: 0;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     background: linear-gradient(145deg, #fff 0%, #f8f9fa 100%);
-    font-size: 1.1rem;
+    font-size: 0.85rem;
     font-family: 'Comic Sans MS', 'Trebuchet MS', Arial, sans-serif;
     table-layout: fixed;
 }
@@ -493,20 +502,21 @@ table {
 th {
     background: linear-gradient(135deg, #e91e63 0%, #9c27b0 50%, #3f51b5 100%);
     color: #fff;
-    padding: 1rem 0.5rem;
+    padding: 0.8rem 0.4rem;
     text-align: center;
     font-weight: 700;
     white-space: normal;
     word-wrap: break-word;
-    font-size: 1rem;
+    font-size: 0.75rem;
     text-transform: none;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     border-bottom: 2px solid #e91e63;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    width: 14.28%;
 }
 
 td {
-    padding: 1rem 0.5rem;
+    padding: 0.8rem 0.4rem;
     border-bottom: 1px solid #dee2e6;
     white-space: nowrap;
     text-align: center;
@@ -514,9 +524,10 @@ td {
     background: rgba(248, 249, 250, 0.8);
     font-weight: 600;
     text-shadow: none;
-    font-size: 1rem;
+    font-size: 0.75rem;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 14.28%;
 }
 
 tbody tr:nth-child(even) td {
