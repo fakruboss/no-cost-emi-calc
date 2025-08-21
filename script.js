@@ -97,7 +97,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const monthlyRate = annualRate / (12 * 100);
         const gstRate = 0.18; // 18% GST
         
-        // Calculate base EMI using the formula: EMI = L * r / (1 - (1+r)^-N)
+        // Calculate base EMI using the standard formula - this is what customer pays monthly
+        // In No Cost EMI, company provides discount equal to interest component
         const baseEMI = (loanAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -tenure));
         
         let totalInterest = 0;
@@ -110,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Calculate month-wise breakdown
         for (let month = 1; month <= tenure; month++) {
+            // Standard EMI breakdown
             const interest = outstanding * monthlyRate;
             const principal = baseEMI - interest;
             const gstOnInterest = interest * gstRate;
@@ -118,14 +120,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const monthlyProcessingFee = month === 1 ? processingFee : 0;
             const monthlyGSTOnFee = month === 1 ? processingFee * gstRate : 0;
             
-            const monthlyPayment = baseEMI + gstOnInterest + monthlyProcessingFee + monthlyGSTOnFee;
+            // Customer pays baseEMI + processing charges + GST on interest
+            // Company absorbs the interest as discount
+            const monthlyPayment = baseEMI + monthlyProcessingFee + monthlyGSTOnFee + gstOnInterest;
             
             amortizationSchedule.push({
                 month: month,
                 outstanding: outstanding,
-                interest: interest,
-                principal: principal,
-                gstOnInterest: gstOnInterest,
+                interest: interest, // Interest component (company provides discount)
+                principal: principal, // Principal component
+                gstOnInterest: gstOnInterest, // GST on interest (customer pays this)
                 processingFee: monthlyProcessingFee,
                 gstOnFee: monthlyGSTOnFee,
                 totalPayment: monthlyPayment
@@ -136,13 +140,11 @@ document.addEventListener('DOMContentLoaded', function() {
             outstanding -= principal;
         }
         
-        const totalInterestPlusGST = totalInterest + totalGST;
-        const totalAmount = loanAmount + totalInterest + totalGST + totalProcessingFee + totalGSTOnFee;
-        const merchantDiscount = totalInterest + totalGST + totalProcessingFee + totalGSTOnFee;
-        const effectiveAmount = totalAmount; // In no-cost EMI, this is the total amount you actually pay
+        // Additional charges = GST on interest + processing fee + GST on processing fee
+        const additionalCharges = totalGST + totalProcessingFee + totalGSTOnFee;
         
         // Display results
-        displayResults(baseEMI, totalInterestPlusGST, totalAmount, merchantDiscount, effectiveAmount, amortizationSchedule, {
+        displayResults(baseEMI, totalInterest, totalGST, additionalCharges, amortizationSchedule, {
             loanAmount: loanAmount,
             totalInterest: totalInterest,
             totalGST: totalGST,
@@ -151,11 +153,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    function displayResults(baseEMI, totalInterest, totalAmount, merchantDiscount, effectiveAmount, schedule, breakdown) {
+    function displayResults(baseEMI, totalInterest, totalGST, additionalCharges, schedule, breakdown) {
         document.getElementById('monthlyEMI').textContent = `₹${formatIndianNumber(baseEMI.toFixed(2))}`;
         document.getElementById('totalInterest').textContent = `₹${formatIndianNumber(totalInterest.toFixed(2))}`;
-        document.getElementById('merchantDiscount').textContent = `₹${formatIndianNumber(merchantDiscount.toFixed(2))}`;
-        document.getElementById('effectiveAmount').textContent = `₹${formatIndianNumber(effectiveAmount.toFixed(2))}`;
+        document.getElementById('gstOnInterest').textContent = `₹${formatIndianNumber(totalGST.toFixed(2))}`;
+        document.getElementById('processingFeeWithGST').textContent = `₹${formatIndianNumber((breakdown.totalProcessingFee + breakdown.totalGSTOnFee).toFixed(2))}`;
+        document.getElementById('merchantDiscount').textContent = `₹${formatIndianNumber(additionalCharges.toFixed(2))}`;
         
         // Create amortization table
         const tableBody = document.getElementById('amortizationBody');

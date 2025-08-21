@@ -18,7 +18,7 @@
                 <form id="emi-form">
                     <div class="input-group">
                         <label for="loanAmount">Loan Amount (₹)</label>
-                        <input type="number" id="loanAmount" step="0.01" placeholder="Enter loan amount" required>
+                        <input type="number" id="loanAmount" step="0.01" value="10000" placeholder="Enter loan amount" required>
                     </div>
                     
                     <div class="input-group">
@@ -50,16 +50,20 @@
                             <span id="monthlyEMI">₹0</span>
                         </div>
                         <div class="result-item">
-                            <span>Total Interest + GST:</span>
+                            <span>Total Interest (Company Bears):</span>
                             <span id="totalInterest">₹0</span>
                         </div>
-                        <div class="result-item merchant-discount">
-                            <span>Additional Charges:</span>
-                            <span id="merchantDiscount">₹0</span>
+                        <div class="result-item">
+                            <span>GST on Interest:</span>
+                            <span id="gstOnInterest">₹0</span>
                         </div>
-                        <div class="result-item effective-amount">
-                            <span>Your Effective Payment:</span>
-                            <span id="effectiveAmount">₹0</span>
+                        <div class="result-item">
+                            <span>Processing Fee + GST:</span>
+                            <span id="processingFeeWithGST">₹0</span>
+                        </div>
+                        <div class="result-item merchant-discount">
+                            <span>Additional Charges (You Pay):</span>
+                            <span id="merchantDiscount">₹0</span>
                         </div>
                     </div>
                     </div>
