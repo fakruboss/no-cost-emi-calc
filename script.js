@@ -195,12 +195,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function triggerLayoutTransition() {
-        const container = document.querySelector('.container');
-        const calculator = document.querySelector('.calculator');
+        // For Bootstrap layout, we just need to show the right section
+        const rightSection = document.querySelector('.right-section');
+        const breakdownSection = document.querySelector('.breakdown-section');
         
-        // Add calculated classes for layout transition
-        container.classList.add('calculated');
-        calculator.classList.add('calculated');
+        if (rightSection) {
+            rightSection.style.display = 'block';
+            rightSection.classList.add('show');
+        }
+        
+        // Show the month-wise breakdown table
+        if (breakdownSection) {
+            breakdownSection.style.display = 'block';
+            breakdownSection.classList.add('show');
+        }
+        
+        // Optional: Add any animation classes if needed
+        const calculator = document.querySelector('.calculator');
+        if (calculator) {
+            calculator.classList.add('calculated');
+        }
     }
     
     function createPieChart(breakdown) {
@@ -340,66 +354,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Custom tenure toggle functionality
+    // Simplified comparison without custom tenure functionality
     document.addEventListener('DOMContentLoaded', function() {
-        let currentComparisonData = null;
-        
-        document.getElementById('customTenureToggle').addEventListener('click', function() {
-            const selector = document.getElementById('customTenureSelector');
-            const isVisible = selector.style.display !== 'none';
-            selector.style.display = isVisible ? 'none' : 'block';
-            this.textContent = isVisible ? 'Customize Tenures' : 'Hide Custom Options';
-        });
-        
-        document.getElementById('addCustomTenure').addEventListener('click', function() {
-            const input = document.getElementById('customTenureInput');
-            const value = parseInt(input.value);
-            
-            if (value && value > 0 && value <= 60) {
-                const checkboxContainer = document.querySelector('.tenure-checkboxes');
-                
-                // Check if already exists
-                const existing = checkboxContainer.querySelector(`input[value="${value}"]`);
-                if (existing) {
-                    alert('This tenure is already in the list');
-                    return;
-                }
-                
-                const label = document.createElement('label');
-                label.innerHTML = `<input type="checkbox" value="${value}" checked> ${value} months`;
-                checkboxContainer.appendChild(label);
-                input.value = '';
-            } else {
-                alert('Please enter a valid tenure between 1 and 60 months');
-            }
-        });
-        
-        document.getElementById('updateComparison').addEventListener('click', function() {
-            if (!currentComparisonData) return;
-            
-            const checkedBoxes = document.querySelectorAll('.tenure-checkboxes input[type="checkbox"]:checked');
-            const selectedTenures = Array.from(checkedBoxes).map(cb => parseInt(cb.value)).sort((a, b) => a - b);
-            
-            if (selectedTenures.length === 0) {
-                alert('Please select at least one tenure to compare');
-                return;
-            }
-            
-            displayComparison(
-                currentComparisonData.loanAmount, 
-                currentComparisonData.annualRate, 
-                currentComparisonData.processingFee, 
-                selectedTenures,
-                currentComparisonData.currentTenure,
-                currentComparisonData.currentAdditionalCharges
-            );
-        });
-        
-        // Store comparison data for custom updates
-        window.updateComparisonData = function(loanAmount, annualRate, processingFee, currentTenure, currentAdditionalCharges) {
-            currentComparisonData = {
-                loanAmount, annualRate, processingFee, currentTenure, currentAdditionalCharges
-            };
-        };
+        // No custom tenure functionality needed
     });
 });
