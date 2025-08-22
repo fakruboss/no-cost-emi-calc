@@ -99,6 +99,47 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="comparison-section" id="comparisonSection" style="display: none;">
+                    <div class="comparison-header">
+                        <h4>Tenure Comparison</h4>
+                        <div class="comparison-controls">
+                            <button type="button" id="customTenureToggle" class="toggle-btn">Customize Tenures</button>
+                        </div>
+                    </div>
+                    
+                    <div class="custom-tenure-selector" id="customTenureSelector" style="display: none;">
+                        <h5>Select Tenures to Compare:</h5>
+                        <div class="tenure-checkboxes">
+                            <label><input type="checkbox" value="3" checked> 3 months</label>
+                            <label><input type="checkbox" value="6" checked> 6 months</label>
+                            <label><input type="checkbox" value="9" checked> 9 months</label>
+                            <label><input type="checkbox" value="12" checked> 12 months</label>
+                            <label><input type="checkbox" value="18" checked> 18 months</label>
+                            <label><input type="checkbox" value="24" checked> 24 months</label>
+                            <label><input type="checkbox" value="36" checked> 36 months</label>
+                        </div>
+                        <div class="custom-tenure-input">
+                            <input type="number" id="customTenureInput" placeholder="Add custom tenure (months)" min="1" max="60">
+                            <button type="button" id="addCustomTenure">Add</button>
+                        </div>
+                        <button type="button" id="updateComparison" class="calculate-btn">Update Comparison</button>
+                    </div>
+                    
+                    <div class="comparison-table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tenure</th>
+                                    <th>Additional Charges</th>
+                                    <th>Savings vs Current</th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparisonBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>

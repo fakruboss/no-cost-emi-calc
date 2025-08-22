@@ -151,6 +151,14 @@ document.addEventListener('DOMContentLoaded', function() {
             totalProcessingFee: totalProcessingFee,
             totalGSTOnFee: totalGSTOnFee
         });
+        
+        // Show and populate comparison section
+        showComparisonSection(loanAmount, annualRate, processingFee, tenure, additionalCharges);
+        
+        // Store comparison data for custom updates
+        if (window.updateComparisonData) {
+            window.updateComparisonData(loanAmount, annualRate, processingFee, tenure, additionalCharges);
+        }
     }
     
     function displayResults(baseEMI, totalInterest, totalGST, additionalCharges, schedule, breakdown) {
@@ -259,4 +267,139 @@ document.addEventListener('DOMContentLoaded', function() {
             legendContainer.appendChild(legendItem);
         });
     }
+    
+    // Comparison functionality
+    function calculateComparisonData(loanAmount, annualRate, processingFee, tenures) {
+        const monthlyRate = annualRate / (12 * 100);
+        const gstRate = 0.18;
+        
+        return tenures.map(tenure => {
+            // Calculate base EMI
+            const baseEMI = (loanAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -tenure));
+            
+            let totalInterest = 0;
+            let totalGST = 0;
+            let outstanding = loanAmount;
+            
+            // Calculate month-wise for this tenure
+            for (let month = 1; month <= tenure; month++) {
+                const interest = outstanding * monthlyRate;
+                const principal = baseEMI - interest;
+                const gstOnInterest = interest * gstRate;
+                
+                totalInterest += interest;
+                totalGST += gstOnInterest;
+                outstanding -= principal;
+            }
+            
+            const totalProcessingFeeWithGST = processingFee * (1 + gstRate);
+            const additionalCharges = totalGST + totalProcessingFeeWithGST;
+            
+            return {
+                tenure: tenure,
+                baseEMI: baseEMI,
+                totalGST: totalGST,
+                processingFeeWithGST: totalProcessingFeeWithGST,
+                additionalCharges: additionalCharges
+            };
+        });
+    }
+    
+    function showComparisonSection(loanAmount, annualRate, processingFee, currentTenure, currentAdditionalCharges) {
+        const comparisonSection = document.getElementById('comparisonSection');
+        comparisonSection.style.display = 'block';
+        
+        // Default popular tenures
+        const popularTenures = [3, 6, 9, 12, 18, 24, 36];
+        
+        displayComparison(loanAmount, annualRate, processingFee, popularTenures, currentTenure, currentAdditionalCharges);
+    }
+    
+    function displayComparison(loanAmount, annualRate, processingFee, tenures, currentTenure, currentAdditionalCharges) {
+        const comparisonData = calculateComparisonData(loanAmount, annualRate, processingFee, tenures);
+        const comparisonBody = document.getElementById('comparisonBody');
+        comparisonBody.innerHTML = '';
+        
+        comparisonData.forEach(data => {
+            const tr = document.createElement('tr');
+            const savings = currentAdditionalCharges - data.additionalCharges;
+            const savingsText = savings > 0 ? `+₹${formatIndianNumber(savings.toFixed(2))}` : 
+                               savings < 0 ? `-₹${formatIndianNumber(Math.abs(savings).toFixed(2))}` : '₹0';
+            const savingsClass = savings > 0 ? 'positive-savings' : savings < 0 ? 'negative-savings' : 'no-savings';
+            
+            // Highlight current tenure
+            const isCurrentTenure = data.tenure === currentTenure;
+            tr.className = isCurrentTenure ? 'current-tenure' : '';
+            
+            tr.innerHTML = `
+                <td>${data.tenure} months${isCurrentTenure ? ' (Current)' : ''}</td>
+                <td>₹${formatIndianNumber(data.additionalCharges.toFixed(2))}</td>
+                <td class="${savingsClass}">${savingsText}</td>
+            `;
+            comparisonBody.appendChild(tr);
+        });
+    }
+    
+    // Custom tenure toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentComparisonData = null;
+        
+        document.getElementById('customTenureToggle').addEventListener('click', function() {
+            const selector = document.getElementById('customTenureSelector');
+            const isVisible = selector.style.display !== 'none';
+            selector.style.display = isVisible ? 'none' : 'block';
+            this.textContent = isVisible ? 'Customize Tenures' : 'Hide Custom Options';
+        });
+        
+        document.getElementById('addCustomTenure').addEventListener('click', function() {
+            const input = document.getElementById('customTenureInput');
+            const value = parseInt(input.value);
+            
+            if (value && value > 0 && value <= 60) {
+                const checkboxContainer = document.querySelector('.tenure-checkboxes');
+                
+                // Check if already exists
+                const existing = checkboxContainer.querySelector(`input[value="${value}"]`);
+                if (existing) {
+                    alert('This tenure is already in the list');
+                    return;
+                }
+                
+                const label = document.createElement('label');
+                label.innerHTML = `<input type="checkbox" value="${value}" checked> ${value} months`;
+                checkboxContainer.appendChild(label);
+                input.value = '';
+            } else {
+                alert('Please enter a valid tenure between 1 and 60 months');
+            }
+        });
+        
+        document.getElementById('updateComparison').addEventListener('click', function() {
+            if (!currentComparisonData) return;
+            
+            const checkedBoxes = document.querySelectorAll('.tenure-checkboxes input[type="checkbox"]:checked');
+            const selectedTenures = Array.from(checkedBoxes).map(cb => parseInt(cb.value)).sort((a, b) => a - b);
+            
+            if (selectedTenures.length === 0) {
+                alert('Please select at least one tenure to compare');
+                return;
+            }
+            
+            displayComparison(
+                currentComparisonData.loanAmount, 
+                currentComparisonData.annualRate, 
+                currentComparisonData.processingFee, 
+                selectedTenures,
+                currentComparisonData.currentTenure,
+                currentComparisonData.currentAdditionalCharges
+            );
+        });
+        
+        // Store comparison data for custom updates
+        window.updateComparisonData = function(loanAmount, annualRate, processingFee, currentTenure, currentAdditionalCharges) {
+            currentComparisonData = {
+                loanAmount, annualRate, processingFee, currentTenure, currentAdditionalCharges
+            };
+        };
+    });
 });
